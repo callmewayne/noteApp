@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment'
 import { Icon } from 'antd';
 import './index.less';
 class ArticleItem extends Component {
@@ -6,6 +7,7 @@ class ArticleItem extends Component {
         super(props)
         
     }
+    
     render() {
         console.log(this.props.data)
         return (
@@ -20,9 +22,15 @@ class ArticleItem extends Component {
                  </p>
                  <img  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" alt=""/>
                  <p className="createtime">
-
+                    <span className="time">
+                       {moment(this.props.data.createtime).format('YYYY-MM-DD')}
+                    </span>
+                    <span className="size">
+                        {
+                            this.props.data.size
+                        }
+                    </span>
                  </p>
-              
             </div>
         )
     }

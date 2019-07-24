@@ -18,7 +18,7 @@ export default class ArticleList extends Component {
                   {
                     id:'1231231',
                     title:'article2',
-                    description:'这是一段描述。。。这是一段描述。。。这是一段描述。。。这是一段描述。。。这是一段描述。。。这是一段描述。。。',
+                    description:'将一个复杂的程序依据一定的规则（规范）封装成几个块（文件）并组合在一起。块的内部数据与实现是私有的，只是',
                     createtime:1563957437027,
                     type:'md',
                     size:'20B'
