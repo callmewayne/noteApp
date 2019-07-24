@@ -43,7 +43,8 @@
     "webpack": "^4.36.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4",
-    "write-file-webpack-plugin": "^4.2.0"
+    "write-file-webpack-plugin": "^4.2.0",
+    "react-custom-scrollbars": "^4.2.1"
   },
   "dependencies": {
     "axios": "^0.18.0",
