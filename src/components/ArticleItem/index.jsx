@@ -5,14 +5,13 @@ import './index.less';
 class ArticleItem extends Component {
     constructor(props){
         super(props)
-        
     }
-    
+   
     render() {
-        console.log(this.props.data)
+       
         return (
             <div className="ArticleItem" >
-                 <p className="title">
+                 <p className="title" onClick={ev=>{this.props.getDetail(this.props.data)}}>
                  <Icon style={{"color":'#4491cd'}}  type={this.props.data.type=='txt'?'form':'medium'} /><span> {this.props.data.title}</span>
                  </p>
                  <p className="description multi-ellipsis">

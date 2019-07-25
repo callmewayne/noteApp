@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 
-import { Provider } from 'mobx-react'
  import Main from './Main/Main.jsx'
- import  { Todo, }   from './store.js'
+ // 引入状态机管理供应商
+import { Provider } from 'mobx-react';
+import * as stores  from './../../stores'
  import '../../static/reset.css'
 ReactDom.render(
-     <Provider store={ Todo }>
+     <Provider {...stores}>
             <Main />
      </Provider>,
      document.getElementById('root')

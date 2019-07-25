@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars';
 import ArticleItem from '../../../components/ArticleItem'
+import {editorAction}   from "../../../actions";
+
 import './index.less'
 export default class ArticleList extends Component {
     constructor(props){
@@ -8,8 +10,8 @@ export default class ArticleList extends Component {
           this.state={
               list:[
                   {
-                      id:'123124',
-                      title:'article1',
+                      id:'123124111111',
+                      title:'article11',
                       description:'这是一段描述。。。',
                       createtime:1563957437027,
                       type:'txt',
@@ -25,7 +27,11 @@ export default class ArticleList extends Component {
                 },
               ]
           }
+          this.getDetail(this.state.list[0])
     }
+    getDetail(item){
+        editorAction.getArtDetail(item)
+      }
     render() {
         return (
             <div className="ArticleList">
@@ -37,7 +43,7 @@ export default class ArticleList extends Component {
                           {
                               this.state.list.map((item)=>{
                                   return(
-                                    <ArticleItem key={item.id} data={item} >
+                                    <ArticleItem key={item.id} data={item} getDetail={this.getDetail}>
                                     
                                 </ArticleItem>  
                                   )
