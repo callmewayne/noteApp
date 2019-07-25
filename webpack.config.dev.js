@@ -72,7 +72,11 @@ module.exports = {
     module: {
         rules: [
             { test: /\.(js|jsx)$/, use: [{loader: 'babel-loader'},{loader: 'eslint-loader'}],include: srcRoot},
-            { test: /\.css$/ , use:['style-loader',{'loader':'css-loader',options:{minimize: true}}] ,include: srcRoot},
+            // { test: /\.css$/ , use:['style-loader',{'loader':'css-loader',options:{minimize: true}}] ,include: srcRoot},
+            {
+                test: /\.css$/,
+                use: [ 'style-loader', 'css-loader' ]
+              },
             { test: /\.less$/ , use:['style-loader','css-loader','less-loader']},
             { test: /\.(png|jpg|jpeg)$/, use: 'url-loader?limit=8192' , include: srcRoot},
             {
