@@ -4,14 +4,18 @@ import './index.less';
 class AritcleInput extends Component {
     constructor(props){
           super(props)
-          state = {
+          this.state = {
               title:props.title
           }
+      
     }
+    handleChange(e){
+        console.log(e)
+           }
     render() {
         return (
             <div className="AritcleInput">
-                  <input type="text" placeholder="请输入文章标题" value={this.state.title}/>
+                  <input type="text" placeholder="请输入文章标题" onChange={ev=>{this.handleChange(ev)}} value={ this.props.title} />
             </div>
         )
     }
