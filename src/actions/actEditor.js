@@ -36,7 +36,6 @@ class EditorAction extends ActBase {
     }
     async getArtDetail(id){
         editorStore.getArtDetail(id)
-     
      }
      deleteArticle(){
 

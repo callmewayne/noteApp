@@ -29,7 +29,7 @@ class AritcleInput extends Component {
     render() {
         return (
             <div className="AritcleInput">
-                <input type="text" placeholder="请输入文章标题" onChange={this.handleChange} value={this.state.title} />
+                <input type="text" placeholder="请输入文章标题" onChange={(ev=>{this.handleChange(ev)})} value={this.state.title} />
             </div>
         )
     }

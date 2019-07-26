@@ -48,8 +48,8 @@ export default class ArticleList extends Component {
                   console.log(error)
               }
     }
-    getDetail(item){
-        editorAction.getArtDetail(item)
+    getDetail(id){
+        editorAction.getArtDetail(id)
       }
     render() {
         return (
