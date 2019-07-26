@@ -9,8 +9,6 @@ const srcRoot = path.resolve(__dirname, 'src');
 const devPath = path.resolve(__dirname, 'dev');
 const pageDir = path.resolve(srcRoot, 'page');
 const mainFile = 'index.js';
-console.log(srcRoot)
-console.log(pageDir)
 function getHtmlArray(entryMap){
     let htmlArray = [];
     Object.keys(entryMap).forEach((key)=>{

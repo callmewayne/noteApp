@@ -2,7 +2,9 @@
     "extends": ["eslint:recommended" ,"plugin:react/recommended"],
 
     "parser" : "babel-eslint",
-
+    "env":{
+        "es6" : true 
+    },
     "globals": {
         "window": true,
         "document": true,

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars';
 import ArticleItem from '../../../components/ArticleItem'
 import {editorAction}   from "../../../actions";
-
+import PubSub from 'pubsub-js'
 import './index.less'
 export default class ArticleList extends Component {
     constructor(props){
@@ -27,7 +27,26 @@ export default class ArticleList extends Component {
                 },
               ]
           }
-          this.getDetail(this.state.list[0])
+        //   this.getDetail(this.state.list[0])
+        
+    }
+
+    componentDidMount(){
+        PubSub.subscribe('addArticle', (msg, data)=>{
+            console.log(data)
+        })
+        this.getArtList()
+    }
+  async  getArtList(){
+        try {
+            let result = await editorAction.getArtList()
+            this.setState({
+                list:result
+            })
+                  console.log(result)
+              } catch (error) {
+                  console.log(error)
+              }
     }
     getDetail(item){
         editorAction.getArtDetail(item)

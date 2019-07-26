@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Avatar, Button, Icon ,Dropdown,Menu} from 'antd'
 import SiderbarList from '../../../components/SiderbarList'
 import { windowManager } from '../../../modules/kernel/windowManager'
+import shortid from 'shortid'
+import {editorAction}   from "../../../actions";
+import PubSub from 'pubsub-js'
 import './index.less'
 
 export default class Siderbar extends Component {
@@ -12,11 +15,31 @@ export default class Siderbar extends Component {
     componentDidMount() {
       
     }
+  async  addDocument(){
+        let data =   {
+            id:shortid.generate(),
+            title:'新建文档2222',
+            description:'这是222222段描述。。。',
+            createtime:1563957437027,
+            type:'md',
+            size:'20B'
+        }
+        try {
+            PubSub.publish('addArticle', data) 
+    //   let result = await editorAction.newArticle(data)
+    //         console.log(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+  async  getDetail(){
+    let result = await  editorAction.getArtDetail()
+    }
     render() {
         const menu = (
             <Menu>
               <Menu.Item key="0">
-                <a href="#">新建笔记</a>
+                <a href="#" onClick={this.addDocument}>新建笔记</a>
               </Menu.Item>
               <Menu.Item key="1">
                 <a href="#">新建markdown</a>

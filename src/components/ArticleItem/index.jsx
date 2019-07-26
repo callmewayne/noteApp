@@ -10,8 +10,8 @@ class ArticleItem extends Component {
     render() {
        
         return (
-            <div className="ArticleItem" >
-                 <p className="title" onClick={ev=>{this.props.getDetail(this.props.data)}}>
+            <div className="ArticleItem" onClick={ev=>{this.props.getDetail(this.props.data)}}>
+                 <p className="title" >
                  <Icon style={{"color":'#4491cd'}}  type={this.props.data.type=='txt'?'form':'medium'} /><span> {this.props.data.title}</span>
                  </p>
                  <p className="description multi-ellipsis">

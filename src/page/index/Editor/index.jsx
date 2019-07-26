@@ -4,7 +4,6 @@ import AritcleInput from '../../../components/ArticleInput'
 import { Scrollbars } from 'react-custom-scrollbars';
 import { observer, inject } from 'mobx-react';
 import BraftEditor from 'braft-editor'
-console.log(BraftEditor)
 // 引入编辑器样式
 import 'braft-editor/dist/index.css'
 import './index.less'
@@ -15,9 +14,12 @@ export default class Editor extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            editorState:BraftEditor.createEditorState(this.props.editorStore.ArticleData.description)
+            editorState:BraftEditor.createEditorState(this.props.editorStore.ArticleData.description),
+            currentArtId:this.props.editorStore.ArticleData.id,
+            currentArtData:this.props.editorStore.ArticleData
         }
-
+        this.that = this
+       
     }
 
     componentDidMount() {
@@ -28,18 +30,34 @@ export default class Editor extends Component {
       
 
     }
+    handleChange(e){
+        console.log(e)
+     }
 
 
+    static getDerivedStateFromProps(props, state) {
+        if(props.editorStore.initData.id!==state.currentArtId){
+            return {
+                currentArtData:props.editorStore.initData,
+                currentArtId:props.editorStore.initData.id,
+                editorState:BraftEditor.createEditorState(props.editorStore.initData.description)
+            }
+    
+        }
+       
+        return null
 
+    }
+  
     render() {
-        let editorStore = this.props.editorStore
+        let editorStore = this.state.editorStore
          
         return (
             <div className="Editor">
                 <header className="header">
 
                 </header>
-                <AritcleInput title={editorStore.ArticleData.title} />
+                <AritcleInput handleChange={this.handleChange} id={this.props.editorStore.ArticleData.id} title={this.props.editorStore.ArticleData.title} />
                 {/* <div className="toolbar">
 
                 </div> */}
