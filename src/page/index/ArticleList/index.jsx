@@ -56,7 +56,6 @@ export default class ArticleList extends Component {
         }
     }
     async getDetail(id) {
-        console.log(id)
      let result = await editorAction.getArtDetail(id)
      PubSub.publish('getArtDetail', result) 
      console.log(result)
