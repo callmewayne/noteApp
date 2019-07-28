@@ -10,12 +10,22 @@ class EditorStore{
       }
       @action async getArtDetail(id){
       let result = await StorageManager.getArtDetail(id)
-      console.log(result)
         this.ArticleData = result
         this.initData = result
+        return result
       }
 
-      @action newArticle=(data)=>{}
+      @action async newArticle(data){
+        let result = await StorageManager.newArticle(data)
+        return result
+      }
+
+      async saveArticle(data){
+        let result = await StorageManager.updateArticle(data)
+        return result
+      }
+
+
 }
 
 const editorStore = new EditorStore()

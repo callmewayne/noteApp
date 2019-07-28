@@ -16,18 +16,25 @@ export default class Siderbar extends Component {
       
     }
   async  addDocument(){
+        let newid = shortid.generate()
         let data =   {
-            id:shortid.generate(),
-            title:'新建文档2222',
-            description:'这是222222段描述。。。',
-            createtime:1563957437027,
+            id:newid,
+            data : {
+                "id":newid,
+                "title":`新建文档${newid}`,
+                "description":"",
+                "content":`这是文档${newid}内容`,
+                "lastmodifytime":new Date().getTime()
+            },
+            createtime:new Date().getTime(),
             type:'md',
-            size:'20B'
+            size:'20B',
+            lastmodifytime:new Date().getTime()
         }
         try {
             PubSub.publish('addArticle', data) 
-    //   let result = await editorAction.newArticle(data)
-    //         console.log(result)
+       let result = await editorAction.newArticle(data)
+            console.log(result)
         } catch (error) {
             console.log(error)
         }

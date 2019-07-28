@@ -2,11 +2,10 @@ import { editorStore} from './../stores'
 import ActBase from './actBase'
 import axios from 'axios'
 import { StorageManager } from '../modules/db/index'
-
 class EditorAction extends ActBase {
      constructor(){
          super()
-         this.articledb = StorageManager.getDocumentDB('D:\\stations\\blogs\\noteApp\\src\\json\\art_list')
+         this.articledb = StorageManager.getDocumentDB('C:\\AppData\\noteApp\\art_list')
      }
      static instance
      static get instance(){
@@ -17,28 +16,26 @@ class EditorAction extends ActBase {
      }
      
     async newArticle(data){
-        return new Promise((resolve, reject) => {
-                this.articledb.insert(data, (err, doc) => {
-                    err ? reject() : resolve(doc);
-                })
-        })
+        // let that = this
+        // return new Promise((resolve, reject) => {
+        //     that.articledb.insert(data, (err, doc) => {
+        //             err ? reject() : resolve(doc);
+        //         })
+        // })
+        editorStore.newArticle(data)
      }
 
-     saveArticle(){
-
+     async saveArticle(data){
+        return  StorageManager.updateArticle(data)
      }
     async getArtList(){
-        return new Promise((resolve, reject) => {
-            this.articledb.find({}, (err: Error, doc: any) => {
-                err ? reject() : resolve(doc);
-            })
-        })
+        return  StorageManager.getArtList()
     }
     async getArtDetail(id){
-        editorStore.getArtDetail(id)
+      return  StorageManager.getArtDetail(id)
      }
-     deleteArticle(){
-
+     async deleteArticle(id){
+      return  StorageManager.deleteArticle(id)
      }
 
 }

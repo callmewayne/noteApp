@@ -8,28 +8,21 @@ class AritcleInput extends Component {
             title: props.title,
             id: props.id
         }
-        this.handleChange = this.handleChange.bind(this)
 
     }
-    handleChange(event) {
-        this.setState({ title: event.target.value });
-    }
+    // handleChange(event) {
+    //     this.setState({ title: event.target.value });
+    // }
     static getDerivedStateFromProps(props, state) {
-        if (props.id !== state.id) {
-            return {
-                id: props.id,
-                title: props.title
-            }
-
-        }
-
+      
         return null
 
     }
     render() {
+        let { handleChange ,title } = this.props
         return (
             <div className="AritcleInput">
-                <input type="text" placeholder="请输入文章标题" onChange={(ev=>{this.handleChange(ev)})} value={this.state.title} />
+                <input type="text" placeholder="请输入文章标题" onChange={(ev=>{handleChange(ev)})} value={title} />
             </div>
         )
     }
