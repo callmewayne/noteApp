@@ -2,7 +2,7 @@ import React, {  Component} from 'react'
 import {Button} from 'antd';
 import TopBar from '../../../components/TopBar/'
 import Siderbar from './../Siderbar'
-import Editor from './../Editor'
+import EditorContainer from './../Editor'
 import ArticleList from './../ArticleList'
 import './Main.less'
 class Main extends Component{
@@ -13,12 +13,10 @@ class Main extends Component{
    render(){
        return (
         <div className="container">
-            <TopBar></TopBar>
-           <Siderbar>
-
-           </Siderbar>
-           <ArticleList></ArticleList>
-           <Editor></Editor>
+           <TopBar />
+           <Siderbar />
+           <ArticleList />
+           <EditorContainer />
         </div>
        ) 
    }

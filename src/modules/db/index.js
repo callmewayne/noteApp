@@ -8,6 +8,7 @@ class StorageModel {
     constructor() {
         this.instance = null
         this.articledb =this.getDocumentDB('C:\\AppData\\noteApp\\art_list')
+        this.updateArticle = this.updateArticle.bind(this)
     }
 
 
@@ -55,25 +56,23 @@ class StorageModel {
     }
     
     async updateArticle(modifyObj){
-       function stripHTML(str){
-               var reTag = /<(?:.|\s)*?>/g;
-               return str.replace(reTag,"")
-       }
         let data = {
             "id":modifyObj.id,
             "title":modifyObj.title,
-            "description":stripHTML(modifyObj.content).substring(0,20),
+            "description":this.stripHTML(modifyObj.content).substring(0,20),
             "content":modifyObj.content,
             "lastmodifytime":new Date().getTime()
         }
-        console.log(data)
         return new Promise((resolve, reject) => {
             this.articledb.update({"id":modifyObj.id},{$set: { data}}, (err, doc) => {
                     err ? reject() : resolve(doc);
                 })
         })
     }
-
+    stripHTML(str){
+        var reTag = /<(?:.|\s)*?>/g;
+        return str.replace(reTag,"")
+    }
 }
 const StorageManager = new StorageModel()
 export {

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars';
 import ArticleItem from '../../../components/ArticleItem'
 import { editorAction } from "../../../actions";
+import { StorageManager } from '../../../modules/db/index'
 import PubSub from 'pubsub-js'
 import './index.less'
 export default class ArticleList extends Component {
@@ -39,6 +40,25 @@ export default class ArticleList extends Component {
                 list: artlist
             })
         })
+        PubSub.subscribe('updateTitle',(msg,data)=>{
+            let list = this.state.list
+            for (let i of list) {
+                if(i.id==data.id  && i.data.content!=data.content){
+                    i.data.title = data.title
+                    i.data.description = StorageManager.stripHTML(data.content).substring(0,20),
+                    i.data.content=data.content
+                    i.data.lastmodifytime = data.lastmodifytime
+                    editorAction.saveArticle(data).then(res=>{
+                        console.log(res)
+                    })
+                }
+            }
+        
+            this.setState({
+                list: list
+            })
+            console.log(list)
+        })
         this.getArtList()
 
     }
@@ -49,7 +69,7 @@ export default class ArticleList extends Component {
             this.setState({
                 list: result
             })
-        this.getDetail(this.state.list[0].id)
+            this.state.list.length >0? this.getDetail(this.state.list[0].id):null  
 
         } catch (error) {
             console.log(error)
@@ -86,7 +106,7 @@ export default class ArticleList extends Component {
                     <Scrollbars>
                         {
                             this.state.list.map((item) => {
-                               item = item.data
+                            //    item = item.data
                                 return (
                                     <ArticleItem key={item.id} data={item} removeArticle={this.removeArticle} getDetail={this.getDetail}>
 

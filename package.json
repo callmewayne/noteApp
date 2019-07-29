@@ -53,6 +53,7 @@
     "braft-editor": "^2.3.7",
     "braft-extensions": "^0.0.18",
     "electron-drag": "^1.2.2",
+    "for-editor": "^0.3.0",
     "mobx": "^5.13.0",
     "mobx-react": "^6.1.1",
     "nedb": "^1.8.0",

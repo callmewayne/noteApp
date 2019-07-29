@@ -15,7 +15,7 @@ export default class Siderbar extends Component {
     componentDidMount() {
       
     }
-  async  addDocument(){
+  async  addDocument(type){
         let newid = shortid.generate()
         let data =   {
             id:newid,
@@ -27,14 +27,13 @@ export default class Siderbar extends Component {
                 "lastmodifytime":new Date().getTime()
             },
             createtime:new Date().getTime(),
-            type:'md',
+            type:type=='txt'?'txt':'md',
             size:'20B',
             lastmodifytime:new Date().getTime()
         }
         try {
             PubSub.publish('addArticle', data) 
-       let result = await editorAction.newArticle(data)
-            console.log(result)
+      let result = await editorAction.newArticle(data)
         } catch (error) {
             console.log(error)
         }
@@ -46,10 +45,10 @@ export default class Siderbar extends Component {
         const menu = (
             <Menu>
               <Menu.Item key="0">
-                <a href="#" onClick={this.addDocument}>新建笔记</a>
+                <a href="#" onClick={ ev=>{this.addDocument('txt')}}>新建笔记</a>
               </Menu.Item>
               <Menu.Item key="1">
-                <a href="#">新建markdown</a>
+                <a href="#"onClick={ev=>{this.addDocument('md')}} >新建markdown</a>
               </Menu.Item>
               <Menu.Item key="3">导入word</Menu.Item>
             </Menu>
