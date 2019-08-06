@@ -57,7 +57,6 @@ export default class ArticleList extends Component {
             this.setState({
                 list: list
             })
-            console.log(list)
         })
         this.getArtList()
 
@@ -65,7 +64,6 @@ export default class ArticleList extends Component {
     async  getArtList() {
         try {
             let result = await editorAction.getArtList()
-            console.log(result)
             this.setState({
                 list: result
             })
@@ -78,7 +76,6 @@ export default class ArticleList extends Component {
     async getDetail(id) {
      let result = await editorAction.getArtDetail(id)
      PubSub.publish('getArtDetail', result) 
-     console.log(result)
     }
 
     async removeArticle(ev) {
@@ -108,7 +105,7 @@ export default class ArticleList extends Component {
                             this.state.list.map((item) => {
                             //    item = item.data
                                 return (
-                                    <ArticleItem key={item.id} data={item} removeArticle={this.removeArticle} getDetail={this.getDetail}>
+                                    <ArticleItem key={item.id} data={item} removeArticle={this.removeArticle} getDetail={this.props.handleSelect}>
 
                                     </ArticleItem>
                                 )

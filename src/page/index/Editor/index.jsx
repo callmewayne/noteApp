@@ -20,7 +20,8 @@ export default class EditorContainer extends Component {
         this.state = {
             currentArtData: {},
             mdContent:'',
-            val:''
+            val:'',
+            editorValue:this.props.editorData.data==undefined?null: BraftEditor.createEditorState(this.props.editorData.data.content),
         }
         this.handleEditorChange = this.handleEditorChange.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -30,7 +31,7 @@ export default class EditorContainer extends Component {
     }
 
     componentDidMount() {
-
+        console.log(this.state.editorData)
         PubSub.subscribe('getArtDetail', (msg, initdata) => {
             let reciveData = initdata.data
             this.setState({
@@ -95,14 +96,16 @@ export default class EditorContainer extends Component {
         })   
     }
     static getDerivedStateFromProps(props, state) {
-        // if(props.editorStore.initData.id!==state.currentArtId){
-        //     return {
-        //         currentArtData:props.editorStore.initData,
-        //         currentArtId:props.editorStore.initData.id,
-        //         editorState:BraftEditor.createEditorState(props.editorStore.initData.description)
-        //     }
+        console.log(props)
+        console.log(state)
+        if((props.editorData.id!==state.currentArtData.id) && (props.editorData.id!=undefined) ){
+            return {
+                currentArtData:props.editorData,
+                currentArtId:props.editorData.id,
+                editorValue:BraftEditor.createEditorState(props.editorData.data.content)
+            }
 
-        // }
+        }
 
         return null
 
@@ -116,7 +119,9 @@ export default class EditorContainer extends Component {
 
     render() {
         let editorStore = this.state.editorStore
-        let { val,currentArtData,mdContent} = this.state
+        let { val,currentArtData,mdContent,editorValue} = this.state
+        console.log(this.props)
+        console.log(editorValue)
         return (
 
             <div className="Editor">
@@ -127,16 +132,17 @@ export default class EditorContainer extends Component {
 
                 <Scrollbars>
                 <div id="Editor"  onClick = {this.updateArticleList}>
-                    {
+                <BraftEditor
+                            value={editorValue}
+                            onChange={this.handleEditorChange}
+                        />
+                    {/* {
                        currentArtData.type=='md'? 
                        <Editor  value={mdContent}  onClick = {this.updateArticleList} onChange={(ev) => this.handleMDChange(ev)} />
                         : 
                     
-                        <BraftEditor
-                            value={this.state.editorState}
-                            onChange={this.handleEditorChange}
-                        />
-                    }
+                      
+                    } */}
                     
                     </div>
 

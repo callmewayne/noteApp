@@ -20,7 +20,7 @@ class ArticleItem extends Component {
          
         return (
             <Dropdown overlay={menu(this.props.data.id)} id={this.props.data.id} trigger={['contextMenu']}>
-            <div className="ArticleItem" onClick={ev=>{this.props.getDetail(this.props.data.id)}}>
+            <div className="ArticleItem" onClick={ev=>{this.props.getDetail(this.props.data)}}>
                  <p className="title" >
                  <Icon style={{"color":'#4491cd'}}  type={this.props.data.type=='txt'?'form':'medium'} /><span> {this.props.data.data.title}</span>
             
