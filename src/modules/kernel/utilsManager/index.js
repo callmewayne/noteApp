@@ -9,9 +9,9 @@ class UtilManager{
     convertResponse(ret){
         console.log(ret)
         return {
-            code:ret.response.statusCode,
+            code:ret.body.code,
             message: decodeURIComponent(ret.response.headers['status-message']),
-            body: ret.body?JSON.parse(ret.body):null
+            body: ret.body?ret.body:null
         }
     }
 }

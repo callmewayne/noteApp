@@ -39,7 +39,7 @@ class NetworkModel {
    }
    newPOST(uri,options){
     return new Promise((resolve,reject)=>{
-        request.post(uri,options,(err,response,body)=>{
+        request.post({url:uri,body:options,json: true},(err,response,body)=>{
             if(err){
                 reject()
             }else{

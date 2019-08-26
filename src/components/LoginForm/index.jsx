@@ -17,7 +17,7 @@ class LoginForm extends Component {
                 password:values.password
             }).then(res=>{
                 console.log(res)
-                if(res.data.code==200){
+                if(res.code==200){
                     this.props.handleOk()
                 }else{
                     error()
