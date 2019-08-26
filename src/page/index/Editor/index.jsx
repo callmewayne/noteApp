@@ -31,9 +31,10 @@ export default class EditorContainer extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state.editorData)
+       
         PubSub.subscribe('getArtDetail', (msg, initdata) => {
             let reciveData = initdata.data
+            console.log(reciveData)
             this.setState({
                 editorState: BraftEditor.createEditorState(reciveData.content),
                 currentArtData: initdata,
@@ -121,14 +122,14 @@ export default class EditorContainer extends Component {
         let editorStore = this.state.editorStore
         let { val,currentArtData,mdContent,editorValue} = this.state
         console.log(this.props)
-        console.log(editorValue)
+        console.log(currentArtData)
         return (
 
             <div className="Editor">
                 <header className="header">
 
                 </header>
-                <AritcleInput handleChange={this.handleChange} title={val} />
+                <AritcleInput handleChange={this.handleChange} title={ ''} />
 
                 <Scrollbars>
                 <div id="Editor"  onClick = {this.updateArticleList}>

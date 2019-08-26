@@ -1,3 +1,4 @@
 import editorAction from './actEditor'
+import userAction from './actUserInfo'
 
-export{ editorAction }
+export{ editorAction,userAction }
