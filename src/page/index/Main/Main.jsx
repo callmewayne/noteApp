@@ -34,7 +34,6 @@ class Main extends Component{
 }
 async getDetail(id) {
     let result = await editorAction.getArtDetail(id)
-    console.log(result)
    }
    pickArticle(data){
        this.setState({

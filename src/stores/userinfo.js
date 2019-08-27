@@ -3,25 +3,22 @@ import { NetworkManager } from '../modules/kernel/netWorkManager'
 class UserStore{
     @observable userData;
       constructor(){
-         this.userData = {}
+         this.userData = {
+             username:'wayne'
+         }
       }
       @action async setUserData(data){
         this.userData = data
         return data
       }
 
-      @action async newArticle(data){
-        let result = await StorageManager.newArticle(data)
-        return result
+      @action async getUserData(){
+        return  this.userData
       }
 
-      async saveArticle(data){
-        let result = await StorageManager.updateArticle(data)
-        return result
-      }
-
+    
 
 }
 
-const UserStore = new UserStore()
-export default UserStore
+const userStore = new UserStore()
+export default userStore

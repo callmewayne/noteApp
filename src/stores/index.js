@@ -1,3 +1,3 @@
 import editorStore from './editor'
-
-export{editorStore}
+import userStore from './userinfo'
+export{editorStore,userStore}

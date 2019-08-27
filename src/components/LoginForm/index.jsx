@@ -12,12 +12,35 @@ class LoginForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
           if (!err) {
+
+            // axios.post('http://localhost:8000/api/user/login',{
+            //     username:values.username,
+            //     password:values.password
+            // }).then(res=>{
+            //     console.log(res)
+            //     // axios.get('http://localhost:8000/api/user/session-test').then(resp=>{
+            //     //     console.log(resp)
+            //     // })
+            //     // userAction.sessionTest('http://localhost:8000/api/user/session-test').then(res=>{
+            //     //     console.log(res)
+            //     // })
+            // })
+         
+          
             userAction.login('/api/user/login',{
                 username:values.username,
                 password:values.password
             }).then(res=>{
                 console.log(res)
                 if(res.code==200){
+                    // userAction.sessionTest('/session-test').then(res=>{
+                    //     console.log(res)
+                    // })
+                    userAction.setCookies(res.body.data)
+                    // userAction.setUserData(res.body.data)
+                 window.setTimeout(()=>{
+                    userAction.getCookies()
+                 },1000)
                     this.props.handleOk()
                 }else{
                     error()

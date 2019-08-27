@@ -12,7 +12,7 @@ class UserInfo extends Component {
             <div className="userinfo">
                 <Avatar className="avatar" onClick={(ev)=>this.props.showModal()} size={50} style={{ backgroundColor: '#87d068' }} icon="user" />
                 {
-                    this.props.UserInfo.username?<p>{this.props.UserInfo.username}</p>:null
+                    this.props.UserInfo.realname?<p>{this.props.UserInfo.realname}</p>:<p>未登录</p>
                 }
                 
             </div>

@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react';
 import { Modal, Button, Icon, Dropdown, Menu } from 'antd'
 import SiderbarList from '../../../components/SiderbarList'
 import UserInfo from '../../../components/UserInfo'
 import WrappedNormalLoginForm from '../../../components/LoginForm'
 import { windowManager } from '../../../modules/kernel/windowManager'
 import shortid from 'shortid'
-import { editorAction } from "../../../actions";
+import { editorAction,userAction } from "../../../actions";
+import axios from 'axios'
 import PubSub from 'pubsub-js'
 import './index.less'
-
+@inject("userStore")
+@observer
 export default class Siderbar extends Component {
 
     constructor(props) {
@@ -18,12 +21,29 @@ export default class Siderbar extends Component {
             visible: false,
             confirmLoading: false,
         }
+       
     }
 
 
 
     componentDidMount() {
+          userAction.getCookies('login').then(res=>{
+              console.log(res)
+             if(res.value==''){
+                this.setState({
+                    visible:true
+                  })
+             }else{
+                console.log(JSON.parse(res.value))
+                 this.setState({
+                    UserInfo:JSON.parse(res.value)
+                 })
 
+             }
+          })
+        //   axios.get('http://localhost:8000/api/blog/list').then(res=>{
+        //     console.log(res)
+        // })
     }
 
     showModal = () => {

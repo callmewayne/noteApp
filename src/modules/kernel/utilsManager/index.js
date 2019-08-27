@@ -1,9 +1,10 @@
 
 
 
+
 class UtilManager{
     constructor(){
-
+       
     }
   
     convertResponse(ret){
@@ -14,6 +15,7 @@ class UtilManager{
             body: ret.body?ret.body:null
         }
     }
+   
 }
 const utilManager = new UtilManager()
 export {utilManager}
