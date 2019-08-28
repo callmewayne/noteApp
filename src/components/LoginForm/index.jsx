@@ -38,9 +38,9 @@ class LoginForm extends Component {
                     // })
                     userAction.setCookies(res.body.data)
                     // userAction.setUserData(res.body.data)
-                 window.setTimeout(()=>{
-                    userAction.getCookies()
-                 },1000)
+                //  window.setTimeout(()=>{
+                //     userAction.getCookies()
+                //  },1000)
                     this.props.handleOk()
                 }else{
                     error()

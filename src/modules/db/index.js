@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as _ from "lodash";
 import DataStore from 'nedb';
+import jwt  from 'jsonwebtoken' 
 import {
     ConfigManager
 } from '../config'
@@ -9,11 +10,11 @@ const session = require('electron').remote.session
 const filter = {
     urls: ['*://*/*']
 }
-let Days = 30;
+let Days = 1;
 let exp = new Date();
 let date = Math.round(exp.getTime() / 1000) + Days * 24 * 60 * 60;
-const cookie = {
-    url: "http://www.github.com",
+var cookie = {
+    url: "http://www.note.com",
     name: 'login',
     value: '',
     expirationDate: date
@@ -31,7 +32,7 @@ class StorageModel {
         return await true
     }
     async setCookies(data) {
-        cookie['value'] = JSON.stringify(data) 
+        cookie['value'] = data
         session.defaultSession.cookies.set(cookie, (error) => {
             if (error) console.error(error);
         });
@@ -39,7 +40,7 @@ class StorageModel {
 
     async getCookies(key) {
         console.log(key)
-        let options = key?{name:key}:{}
+        let options = key?{url:'http://www.note.com'}:{}
         return new Promise((resolve, reject) => {
             session.defaultSession.cookies.get(options,(error, cookies) => {
                 if (error) {

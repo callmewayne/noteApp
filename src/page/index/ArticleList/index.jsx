@@ -51,7 +51,6 @@ export default class ArticleList extends Component {
                     i.data.content=data.content
                     i.data.lastmodifytime = data.lastmodifytime
                     editorAction.saveArticle(data).then(res=>{
-                        console.log(res)
                     })
                 }
             }

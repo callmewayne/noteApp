@@ -1,13 +1,11 @@
-import { editorStore} from './../stores'
+import { editorStore} from '../stores'
 import ActBase from './actBase'
 import axios from 'axios'
-import { StorageManager } from '../modules/db/index'
-import {NetworkManager}  from '../modules/kernel/netWorkManager'
+import { StorageManager } from '../modules/db'
 class EditorAction extends ActBase {
      constructor(){
          super()
          this.articledb = StorageManager.getDocumentDB('C:\\AppData\\noteApp\\art_list')
-
      }
      static instance
      static get instance(){
@@ -30,9 +28,8 @@ class EditorAction extends ActBase {
      async saveArticle(data){
         return  StorageManager.updateArticle(data)
      }
-    async getArtList(url,options){
-        let result = this.cv(await NetworkManager.newGET( this.basePath+ url,options)) 
-        return  result
+    async getArtList(){
+        return  StorageManager.getArtList()
     }
     async getArtDetail(id){
       return  StorageManager.getArtDetail(id)

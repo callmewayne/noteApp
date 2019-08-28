@@ -34,7 +34,6 @@ export default class EditorContainer extends Component {
        
         PubSub.subscribe('getArtDetail', (msg, initdata) => {
             let reciveData = initdata.data
-            console.log(reciveData)
             this.setState({
                 editorState: BraftEditor.createEditorState(reciveData.content),
                 currentArtData: initdata,
@@ -58,7 +57,6 @@ export default class EditorContainer extends Component {
             if (currKey == 83 && (e.ctrlKey || e.metaKey)) {
                 e.preventDefault()
                 let data = self.modifyData()
-                console.log(data)
                   self.saveArticle(data)
             }
         }
@@ -76,7 +74,6 @@ export default class EditorContainer extends Component {
     }
     saveArticle(data){
         editorAction.saveArticle(data).then(res=>{
-           console.log(res)
        })
     }
     handleChange(e) {
@@ -84,7 +81,6 @@ export default class EditorContainer extends Component {
             val: e.target.value
         })
 
-        console.log(e.target.value)
     }
     handleEditorChange(editorState) {
         this.setState({ editorState })
@@ -97,8 +93,6 @@ export default class EditorContainer extends Component {
         })   
     }
     static getDerivedStateFromProps(props, state) {
-        console.log(props)
-        console.log(state)
         if((props.editorData.id!==state.currentArtData.id) && (props.editorData.id!=undefined) ){
             return {
                 currentArtData:props.editorData,
@@ -113,7 +107,6 @@ export default class EditorContainer extends Component {
     }
     updateArticleList(){
         let data = this.modifyData()
-        console.log(data)
         PubSub.publish('updateTitle',data)
         // this.saveArticle(data)
     }
@@ -121,8 +114,6 @@ export default class EditorContainer extends Component {
     render() {
         let editorStore = this.state.editorStore
         let { val,currentArtData,mdContent,editorValue} = this.state
-        console.log(this.props)
-        console.log(currentArtData)
         return (
 
             <div className="Editor">

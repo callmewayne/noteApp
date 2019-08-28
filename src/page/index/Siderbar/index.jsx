@@ -27,20 +27,7 @@ export default class Siderbar extends Component {
 
 
     componentDidMount() {
-          userAction.getCookies('login').then(res=>{
-              console.log(res)
-             if(res.value==''){
-                this.setState({
-                    visible:true
-                  })
-             }else{
-                console.log(JSON.parse(res.value))
-                 this.setState({
-                    UserInfo:JSON.parse(res.value)
-                 })
-
-             }
-          })
+        this.switchCurrentUser()
         //   axios.get('http://localhost:8000/api/blog/list').then(res=>{
         //     console.log(res)
         // })
@@ -51,8 +38,28 @@ export default class Siderbar extends Component {
             visible: true,
         });
     };
+     
+    switchCurrentUser(){
+        userAction.getCookies('login').then(res=>{
+            console.log(res)
+           if(res.value==''){
+              this.setState({
+                  visible:true
+                })
+           }else{
+              let userinfo = userAction.getUserDataBytoken(res.value)
+            console.log(userinfo)
+             this.setState({
+                UserInfo:userinfo
+             })
+             userAction.setUserData(userinfo)
+             this.props.getArtList()
+           }
+        })
+    }
 
     handleOk = e => {
+        this.switchCurrentUser()
         this.setState({
             visible: false,
             confirmLoading: false

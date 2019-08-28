@@ -1,6 +1,6 @@
 
 
-
+const jwt_decode = require('jwt-decode'); //無秘解析
 
 class UtilManager{
     constructor(){
@@ -15,7 +15,16 @@ class UtilManager{
             body: ret.body?ret.body:null
         }
     }
-   
+     verifyToken(token){
+        try {
+        var decoded = jwt_decode(token);
+        return decoded
+            
+        } catch (error) {
+            console.log(error)
+        }
+    
+    }
 }
 const utilManager = new UtilManager()
 export {utilManager}

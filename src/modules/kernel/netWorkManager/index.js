@@ -1,16 +1,18 @@
 import * as path from 'path';
 import * as _ from "lodash";
 import * as request from 'request';
+import { StorageManager } from './../../db'
 
 class NetworkModel {
     constructor(props) {
         this.instance = null
-        this.init()
+        this.userInfo = null
+        //this.init()
+        this.getUserInfo()
     }
 
      
     async init() {
-        console.log(11111)
         // session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
         //     details.requestHeaders['User-Agent'] = 'MyAgent'
         //     details.requestHeaders['values'] = 'zhangsan'
@@ -18,10 +20,21 @@ class NetworkModel {
         //   })
         return await true
     }
-
-    newGET(uri) {
+    async getUserInfo(){
+        let result = await StorageManager.getCookies('login')
+        console.log(result)
+        this.userInfo =  result?result.value:null
+    }
+    newGET(uri,options) {
+        let that = this
         return new Promise((resolve, reject) => {
-            request.get(uri, (err, response, body) => {
+            request.get({
+                url: uri,
+                qs: options,
+                headers:{
+                    "token":that.userInfo
+                }
+            }, (err, response, body) => {
                 if (err) {
                     reject()
                 } else {
@@ -51,14 +64,16 @@ class NetworkModel {
             })
         })
     }
-    newPOST(uri, options) {
+   async newPOST(uri, options) {
+        let that = this
+       // let user = await that.getUserInfo()
         return new Promise((resolve, reject) => {
             request.post({
                 url: uri,
                 body: options,
                 json: true,
                 headers:{
-                    'user':'zhangsan'
+                    'token':that.userInfo
                 }
             }, (err, response, body) => {
                 if (err) {
