@@ -27,15 +27,17 @@ class EditorAction extends ActBase {
         editorStore.newArticle(data)
      }
 
-     async saveArticle(data){
-        return  StorageManager.updateArticle(data)
+     async saveArticle(url,options){
+        let result = this.cv(await NetworkManager.newPUT( this.basePath+ url,options)) 
+        return  result
+       // return  StorageManager.updateArticle(data)
      }
     async getArtList(url,options){
         let result = this.cv(await NetworkManager.newGET( this.basePath+ url,options)) 
         return  result
     }
-    async getArtDetail(id){
-      return  StorageManager.getArtDetail(id)
+    async getArtDetail(url,options){
+      return this.cv(await NetworkManager.newGET( this.basePath+ url,options))
      }
      async deleteArticle(id){
       return  StorageManager.deleteArticle(id)

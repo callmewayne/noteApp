@@ -21,56 +21,52 @@ export default class Siderbar extends Component {
             visible: false,
             confirmLoading: false,
         }
-       
+       console.log(props)
     }
 
 
 
     componentDidMount() {
-        this.switchCurrentUser()
+        // this.switchCurrentUser()
         //   axios.get('http://localhost:8000/api/blog/list').then(res=>{
         //     console.log(res)
         // })
     }
 
-    showModal = () => {
-        this.setState({
-            visible: true,
-        });
-    };
+  
      
-    switchCurrentUser(){
-        userAction.getCookies('login').then(res=>{
-            console.log(res)
-           if(res.value==''){
-              this.setState({
-                  visible:true
-                })
-           }else{
-              let userinfo = userAction.getUserDataBytoken(res.value)
-            console.log(userinfo)
-             this.setState({
-                UserInfo:userinfo
-             })
-             userAction.setUserData(userinfo)
-             this.props.getArtList()
-           }
-        })
-    }
+    // switchCurrentUser(){
+    //     userAction.getCookies('login').then(res=>{
+    //         console.log(res)
+    //        if(res.value==''){
+    //           this.setState({
+    //               visible:true
+    //             })
+    //        }else{
+    //           let userinfo = userAction.getUserDataBytoken(res.value)
+    //         console.log(userinfo)
+    //          this.setState({
+    //             UserInfo:userinfo
+    //          })
+    //          userAction.setUserData(userinfo)
+    //          this.props.getArtList()
+    //        }
+    //     })
+    // }
 
-    handleOk = e => {
-        this.switchCurrentUser()
-        this.setState({
-            visible: false,
-            confirmLoading: false
-        });
-    };
+    // handleOk = e => {
+    //     this.switchCurrentUser()
+    //     this.setState({
+    //         visible: false,
+    //         confirmLoading: false
+    //     });
+    // };
 
-    handleCancel = e => {
-        this.setState({
-            visible: false,
-        });
-    };
+    // handleCancel = e => {
+    //     this.setState({
+    //         visible: false,
+    //     });
+    // };
     async  addDocument(type) {
         let newid = shortid.generate()
         let data = {
@@ -112,7 +108,7 @@ export default class Siderbar extends Component {
         return (
             <div className="siderbar">
                 <header className="hearder"  >
-                    <UserInfo UserInfo={this.state.UserInfo} showModal={this.showModal}/>
+                    <UserInfo UserInfo={this.props.UserInfo} showModal={this.props.showModal}/>
                     <div className="tool">
                         <div className="tool_item">
                             <span className="border">
@@ -140,15 +136,15 @@ export default class Siderbar extends Component {
 
                 <Modal
                     title="登录"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
+                    visible={this.props.visible}
+                    onOk={this.props.handleOk}
                     style={{ top: 100 }}
                     okText="确认"
                     cancelText="取消"
-                    onCancel={this.handleCancel}
-                    confirmLoading={this.state.confirmLoading}
+                    onCancel={this.props.handleCancel}
+                    // confirmLoading={this.state.confirmLoading}
                 >
-                   <WrappedNormalLoginForm  handleOk={this.handleOk}/>
+                   <WrappedNormalLoginForm  handleOk={this.props.handleOk}/>
                 </Modal>
             </div>
         )

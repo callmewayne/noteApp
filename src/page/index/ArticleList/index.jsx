@@ -43,14 +43,16 @@ export default class ArticleList extends Component {
             })
         })
         PubSub.subscribe('updateTitle',(msg,data)=>{
-            let list = this.state.list
+            
+            let list = this.props.list
             for (let i of list) {
-                if(i.id==data.id  && i.data.content!=data.content){
-                    i.data.title = data.title
-                    i.data.description = StorageManager.stripHTML(data.content).substring(0,20),
-                    i.data.content=data.content
-                    i.data.lastmodifytime = data.lastmodifytime
-                    editorAction.saveArticle(data).then(res=>{
+                if(i.id==data.id  && i.content!=data.content){
+                    i.title = data.title
+                    i.description = StorageManager.stripHTML(data.content).substring(0,20),
+                    i.content=data.content
+                    i.lastmodifytime = data.lastmodifytime
+                    editorAction.saveArticle('/api/blog/update',data).then(res=>{
+                        console.log(res)
                     })
                 }
             }

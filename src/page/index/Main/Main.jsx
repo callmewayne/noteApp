@@ -1,12 +1,12 @@
 import React, {  Component} from 'react'
 import {Button} from 'antd';
-import { observer, inject } from 'mobx-react';
 import TopBar from '../../../components/TopBar/'
 import Siderbar from './../Siderbar'
 import EditorContainer from './../Editor'
 import ArticleList from './../ArticleList'
-import { editorAction } from "../../../actions";
+import { editorAction,userAction } from "../../../actions";
 import './Main.less'
+import { observer, inject } from 'mobx-react';
 @inject("userStore")
 @observer
 class Main extends Component{
@@ -14,51 +14,79 @@ class Main extends Component{
        super(props)
        this.pickArticle = this.pickArticle.bind(this)
        this.getArtList = this.getArtList.bind(this)
+       this.handleCancel =  this.handleCancel.bind(this)
+       this.handleOk =  this.handleOk.bind(this)
+       this.showModal =  this.showModal.bind(this)
        this.state = {
            editorData:{},
-           list:[]
+           list:[],
+           UserInfo:null,
+           visible:false,
+           confirmLoading:false
        }
+       this.switchCurrentUser()
    }
 
    componentDidMount(){
     //  this.getArtList()
-        this.switchCurrentUser()
+       
    }
 
    switchCurrentUser(){
     userAction.getCookies('login').then(res=>{
-        console.log(res)
        if(res.value==''){
           this.setState({
               visible:true
             })
        }else{
           let userinfo = userAction.getUserDataBytoken(res.value)
-        console.log(userinfo)
          this.setState({
             UserInfo:userinfo
          })
          userAction.setUserData(userinfo)
-         this.props.getArtList()
+       this.getArtList()
        }
     })
 }
 
+showModal = () => {
+    this.setState({
+        visible: true,
+    });
+};
+
+handleOk = e => {
+    this.switchCurrentUser()
+    this.setState({
+        visible: false,
+        confirmLoading: false
+    });
+};
+
+handleCancel = e => {
+    this.setState({
+        visible: false,
+    });
+};
    async  getArtList() {
     try {
         let result = await editorAction.getArtList('/api/blog/list')
-        console.log(result)
+     
+        result.body.length >0? this.getDetail(result.body[0].id):null  
         this.setState({
-            list: result
+            list: result.body
         })
-        this.state.list.length >0? this.getDetail(this.state.list[0].id):null  
 
     } catch (error) {
         console.log(error)
     }
 }
 async getDetail(id) {
-    let result = await editorAction.getArtDetail(id)
+    let options = {
+        id:id
+    }
+    let result = await editorAction.getArtDetail('/api/blog/detail',options)
+    this.pickArticle(result.body)
    }
    pickArticle(data){
        this.setState({
@@ -69,7 +97,7 @@ async getDetail(id) {
        return (
         <div className="container">
            <TopBar />
-           <Siderbar getArtList={this.getArtList} />
+           <Siderbar userinfo={this.state.UserInfo} showModal={this.showModal} visible={this.state.visible} handleOk={this.handleOk} handleCancel={this.handleCancel} getArtList={this.getArtList} />
            <ArticleList handleSelect={this.pickArticle} list={this.state.list} />
            <EditorContainer editorData={this.state.editorData} />
         </div>

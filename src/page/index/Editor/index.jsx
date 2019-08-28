@@ -21,7 +21,7 @@ export default class EditorContainer extends Component {
             currentArtData: {},
             mdContent:'',
             val:'',
-            editorValue:this.props.editorData.data==undefined?null: BraftEditor.createEditorState(this.props.editorData.data.content),
+            editorValue:this.props.editorData==undefined?null: BraftEditor.createEditorState(this.props.editorData.content),
         }
         this.handleEditorChange = this.handleEditorChange.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -57,7 +57,7 @@ export default class EditorContainer extends Component {
             if (currKey == 83 && (e.ctrlKey || e.metaKey)) {
                 e.preventDefault()
                 let data = self.modifyData()
-                  self.saveArticle(data)
+                //   self.saveArticle(data)
             }
         }
         document.onkeydown = keyDown
@@ -65,7 +65,7 @@ export default class EditorContainer extends Component {
 
     }
     modifyData(){
-        let modifiData = this.state.currentArtData.data
+        let modifiData = this.state.currentArtData
         modifiData['id'] = this.state.currentArtData.id
         modifiData['lastmodifytime'] = new Date().getTime()
         modifiData['content'] =this.state.currentArtData.type=='txt'? this.state.editorState.toHTML():this.state.mdContent
@@ -83,6 +83,7 @@ export default class EditorContainer extends Component {
 
     }
     handleEditorChange(editorState) {
+        console.log(editorState)
         this.setState({ editorState })
     }
     handleMDChange(e){
@@ -97,7 +98,7 @@ export default class EditorContainer extends Component {
             return {
                 currentArtData:props.editorData,
                 currentArtId:props.editorData.id,
-                editorValue:BraftEditor.createEditorState(props.editorData.data.content)
+                editorValue:BraftEditor.createEditorState(props.editorData.content)
             }
 
         }
@@ -107,6 +108,7 @@ export default class EditorContainer extends Component {
     }
     updateArticleList(){
         let data = this.modifyData()
+        console.log(data)
         PubSub.publish('updateTitle',data)
         // this.saveArticle(data)
     }
@@ -120,7 +122,7 @@ export default class EditorContainer extends Component {
                 <header className="header">
 
                 </header>
-                <AritcleInput handleChange={this.handleChange} title={ ''} />
+                <AritcleInput handleChange={this.handleChange}  title={this.props.editorData.title} />
 
                 <Scrollbars>
                 <div id="Editor"  onClick = {this.updateArticleList}>

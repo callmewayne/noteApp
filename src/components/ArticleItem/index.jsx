@@ -22,22 +22,22 @@ class ArticleItem extends Component {
             <Dropdown overlay={menu(this.props.data.id)} id={this.props.data.id} trigger={['contextMenu']}>
             <div className="ArticleItem" onClick={ev=>{this.props.getDetail(this.props.data)}}>
                  <p className="title" >
-                 <Icon style={{"color":'#4491cd'}}  type={this.props.data.type=='txt'?'form':'medium'} /><span> {this.props.data.data.title}</span>
+                 <Icon style={{"color":'#4491cd'}}  type={this.props.data.type=='txt'?'form':'medium'} /><span> {this.props.data.title}</span>
             
                  </p>
                  <p className="description multi-ellipsis">
                    {
-                       this.props.data.data.description
+                       this.props.data.description==null? this.props.data.content.substring(0,20):''
                    }
                  </p>
                  <img  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" alt=""/>
                  <p className="createtime">
                     <span className="time">
-                       {moment(this.props.data.data.lastmodifytime).format('YYYY-MM-DD')}
+                       {moment(this.props.data.lastmodifytime).format('YYYY-MM-DD')}
                     </span>
                     <span className="size">
                         {
-                            this.props.data.size
+                            // this.props.data.size
                         }
                     </span>
                  </p>

@@ -22,7 +22,6 @@ class NetworkModel {
     }
     async getUserInfo(){
         let result = await StorageManager.getCookies('login')
-        console.log(result)
         this.userInfo =  result?result.value:null
     }
     newGET(uri,options) {
@@ -54,15 +53,33 @@ class NetworkModel {
         })
     }
     newPUT(uri, options) {
-        return new Promise((resolve, reject) => {
-            request.post(uri, options, (err, body) => {
-                if (err) {
-                    reject()
-                } else {
-                    resolve(body)
-                }
-            })
-        })
+        let that = this
+         return new Promise((resolve, reject) => {
+             request.post({
+                 url: uri,
+                 body: options,
+                 json: true,
+                 headers:{
+                     'token':that.userInfo
+                 }
+             }, (err, response, body) => {
+                 if (err) {
+                     reject()
+                 } else {
+                     if (response.statusCode >= 200 && response.statusCode <= 299) {
+                         resolve({
+                             response: response,
+                             body: body
+                         });
+                     } else {
+                         reject({
+                             response: response,
+                             body: body
+                         });
+                     }
+                 }
+             })
+         })
     }
    async newPOST(uri, options) {
         let that = this
