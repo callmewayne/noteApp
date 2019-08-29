@@ -125,7 +125,6 @@ export default class EditorContainer extends Component {
         // console.log(htmlContent)
 
         let data = this.modifyData()
-        console.log(data)
         PubSub.publish('updateTitle', data)
         let savetime = moment().format('HH:mm:ss')
      this.setState({savetime})
@@ -142,14 +141,11 @@ export default class EditorContainer extends Component {
                 <AritcleInput handleChange={this.handleChange} title={val} />
 
                 <Scrollbars>
-                    <div id="Editor">
+                    <div id="Editor"  >
                         <BraftEditor
+                        //onClick={this.submitContent}
                             value={editorState}
-                            // onClick={this.submitContent}
                             onChange={this.handleThrottle.bind(this)}
-                            // onChange={_.debounce(function(){
-                            //     that.handleEditorChange
-                            // },3000)}
                             onSave={this.submitContent}
                         />
                         {/* {
