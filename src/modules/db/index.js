@@ -39,7 +39,6 @@ class StorageModel {
     }
 
     async getCookies(key) {
-        console.log(key)
         let options = key?{url:'http://www.note.com'}:{}
         return new Promise((resolve, reject) => {
             session.defaultSession.cookies.get(options,(error, cookies) => {

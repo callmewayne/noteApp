@@ -6,6 +6,7 @@ import EditorContainer from './../Editor'
 import ArticleList from './../ArticleList'
 import { editorAction,userAction } from "../../../actions";
 import './Main.less'
+import PubSub from 'pubsub-js'
 import { observer, inject } from 'mobx-react';
 @inject("userStore")
 @observer
@@ -89,9 +90,10 @@ async getDetail(id) {
     this.pickArticle(result.body)
    }
    pickArticle(data){
-       this.setState({
-        editorData:data
-       })
+       PubSub.publish('getArtDetail',data)
+    //    this.setState({
+    //     editorData:data
+    //    })
    }
    render(){
        return (

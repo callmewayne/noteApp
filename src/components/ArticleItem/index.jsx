@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment'
 import { Icon ,Menu,Dropdown } from 'antd';
+import { StorageManager } from '../../modules/db'
 import './index.less';
 class ArticleItem extends Component {
     constructor(props){
@@ -16,9 +17,9 @@ class ArticleItem extends Component {
             )
         }
            
-          
          
         return (
+            
             <Dropdown overlay={menu(this.props.data.id)} id={this.props.data.id} trigger={['contextMenu']}>
             <div className="ArticleItem" onClick={ev=>{this.props.getDetail(this.props.data)}}>
                  <p className="title" >
@@ -27,7 +28,8 @@ class ArticleItem extends Component {
                  </p>
                  <p className="description multi-ellipsis">
                    {
-                       this.props.data.description==null? this.props.data.content.substring(0,20):''
+                      
+                       this.props.data.description==null? StorageManager.stripHTML(this.props.data.content).substring(0,20):this.props.data.description
                    }
                  </p>
                  <img  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" alt=""/>

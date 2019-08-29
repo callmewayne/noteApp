@@ -34,6 +34,10 @@ class UtilManager{
         }
     
     }
+
+    debounce(fn,wait){
+
+    }
 }
 const utilManager = new UtilManager()
 export {utilManager}

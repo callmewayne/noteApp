@@ -21,7 +21,6 @@ export default class Siderbar extends Component {
             visible: false,
             confirmLoading: false,
         }
-       console.log(props)
     }
 
 

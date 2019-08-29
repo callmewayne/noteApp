@@ -7,7 +7,6 @@ import { observer, inject } from 'mobx-react';
 class UserInfo extends Component {
     constructor(props) {
         super(props)
-        console.log(this.props.userStore.userData.realname)
     }
    
     render() {

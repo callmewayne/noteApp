@@ -43,12 +43,12 @@ export default class ArticleList extends Component {
             })
         })
         PubSub.subscribe('updateTitle',(msg,data)=>{
-            
+         
             let list = this.props.list
             for (let i of list) {
-                if(i.id==data.id  && i.content!=data.content){
+                if((i.id==data.id  && i.content!=data.content) || (i.id==data.id  && i.title!=data.title)){
                     i.title = data.title
-                    i.description = StorageManager.stripHTML(data.content).substring(0,20),
+                    i.description = StorageManager.stripHTML(data.content).substring(0,20)
                     i.content=data.content
                     i.lastmodifytime = data.lastmodifytime
                     editorAction.saveArticle('/api/blog/update',data).then(res=>{
@@ -56,7 +56,6 @@ export default class ArticleList extends Component {
                     })
                 }
             }
-        
             this.setState({
                 list: list
             })
@@ -106,7 +105,6 @@ export default class ArticleList extends Component {
                     <Scrollbars>
                         {
                             this.props.list.map((item) => {
-                            //    item = item.data
                                 return (
                                     <ArticleItem key={item.id} data={item} removeArticle={this.removeArticle} getDetail={this.props.handleSelect}>
 

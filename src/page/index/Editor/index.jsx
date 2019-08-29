@@ -20,9 +20,10 @@ export default class EditorContainer extends Component {
         this.state = {
             currentArtData: {},
             mdContent:'',
-            val:'',
-            editorValue:this.props.editorData==undefined?null: BraftEditor.createEditorState(this.props.editorData.content),
+            val:this.props.editorData.title,
+            editorState:this.props.editorData==undefined?null: BraftEditor.createEditorState(this.props.editorData.content),
         }
+        
         this.handleEditorChange = this.handleEditorChange.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.updateArticleList = this.updateArticleList.bind(this)
@@ -31,14 +32,12 @@ export default class EditorContainer extends Component {
     }
 
     componentDidMount() {
-       
         PubSub.subscribe('getArtDetail', (msg, initdata) => {
-            let reciveData = initdata.data
             this.setState({
-                editorState: BraftEditor.createEditorState(reciveData.content),
+                editorState: BraftEditor.createEditorState(initdata.content),
                 currentArtData: initdata,
-                mdContent:StorageManager.stripHTML(reciveData.content) ,
-                val: reciveData.title
+                mdContent:StorageManager.stripHTML(initdata.content) ,
+                val: initdata.title
             })
         })
         PubSub.subscribe('addArticle', (msg, initdata) => {
@@ -74,6 +73,7 @@ export default class EditorContainer extends Component {
     }
     saveArticle(data){
         editorAction.saveArticle(data).then(res=>{
+            console.log(res)
        })
     }
     handleChange(e) {
@@ -83,7 +83,6 @@ export default class EditorContainer extends Component {
 
     }
     handleEditorChange(editorState) {
-        console.log(editorState)
         this.setState({ editorState })
     }
     handleMDChange(e){
@@ -98,7 +97,7 @@ export default class EditorContainer extends Component {
             return {
                 currentArtData:props.editorData,
                 currentArtId:props.editorData.id,
-                editorValue:BraftEditor.createEditorState(props.editorData.content)
+                editorState:BraftEditor.createEditorState(props.editorData.content)
             }
 
         }
@@ -108,27 +107,35 @@ export default class EditorContainer extends Component {
     }
     updateArticleList(){
         let data = this.modifyData()
-        console.log(data)
-        PubSub.publish('updateTitle',data)
-        // this.saveArticle(data)
+       PubSub.publish('updateTitle',data)
+     //  this.saveArticle(data)
     }
+  submitContent = async () => {
+        // 在编辑器获得焦点时按下ctrl+s会执行此方法
+        // 编辑器内容提交到服务端之前，可直接调用editorState.toHTML()来获取HTML格式的内容
+        // const htmlContent = this.state.editorState.toHTML()
+        // console.log(htmlContent)
 
+        let data = this.modifyData()
+       PubSub.publish('updateTitle',data)
+        // const result = await saveEditorContent(htmlContent)
+    }
     render() {
-        let editorStore = this.state.editorStore
-        let { val,currentArtData,mdContent,editorValue} = this.state
+        let { val,currentArtData,mdContent,editorState} = this.state
         return (
 
             <div className="Editor">
                 <header className="header">
 
                 </header>
-                <AritcleInput handleChange={this.handleChange}  title={this.props.editorData.title} />
+                <AritcleInput handleChange={this.handleChange}  title={val} />
 
                 <Scrollbars>
-                <div id="Editor"  onClick = {this.updateArticleList}>
+                <div id="Editor" onClick={this.submitContent}>
                 <BraftEditor
-                            value={editorValue}
+                            value={editorState}
                             onChange={this.handleEditorChange}
+                            onSave={this.submitContent}
                         />
                     {/* {
                        currentArtData.type=='md'? 
