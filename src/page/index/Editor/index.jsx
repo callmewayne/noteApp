@@ -8,6 +8,7 @@ import { StorageManager } from '../../../modules/db/index'
 import { utilManager } from '../../../modules/kernel/utilsManager'
 import BraftEditor from 'braft-editor'
 import Editor from 'for-editor'
+import moment from 'moment'
 import PubSub from 'pubsub-js'
 import * as _ from 'loadsh'
 // 引入编辑器样式
@@ -20,6 +21,8 @@ export default class EditorContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            savetime:null,
+            saveword:null,
             currentArtData: {},
             mdContent: '',
             val: this.props.editorData.title,
@@ -30,16 +33,20 @@ export default class EditorContainer extends Component {
         this.saveArticle = this.saveArticle.bind(this)
         this.handleEditorChange = _.debounce(this.handleEditorChange, 15000)
         this.canSave = false
+        
     }
 
     componentDidMount() {
+      
         PubSub.subscribe('getArtDetail', (msg, initdata) => {
             this.canSave = false
             this.setState({
                 editorState: BraftEditor.createEditorState(initdata.content),
                 currentArtData: initdata,
                 mdContent: StorageManager.stripHTML(initdata.content),
-                val: initdata.title
+                val: initdata.title,
+                saveword:StorageManager.stripHTML(initdata.content).length,
+                savetime:null
             })
         })
         PubSub.subscribe('addArticle', (msg, initdata) => {
@@ -47,21 +54,11 @@ export default class EditorContainer extends Component {
                 editorState: BraftEditor.createEditorState(initdata.content),
                 currentArtData: initdata,
                 mdContent: StorageManager.stripHTML(initdata.content),
-                val: initdata.title
+                val: initdata.title,
+                saveword:StorageManager.stripHTML(initdata.content).length,
+                savetime:null
             })
         })
-        // let self = this
-        // function keyDown(e) {
-        //     var currKey = 0;
-        //     currKey = e.keyCode || e.which || e.charCode;
-        //     if (currKey == 83 && (e.ctrlKey || e.metaKey)) {
-        //         e.preventDefault()
-        //         let data = self.modifyData()
-        //         //   self.saveArticle(data)
-        //     }
-        // }
-        // document.onkeydown = keyDown
-
 
     }
     modifyData() {
@@ -84,7 +81,7 @@ export default class EditorContainer extends Component {
 
     }
     handleEditorChange(editorState) {
-      
+    
         this.submitContent()
     }
 
@@ -130,7 +127,8 @@ export default class EditorContainer extends Component {
         let data = this.modifyData()
         console.log(data)
         PubSub.publish('updateTitle', data)
-        // const result = await saveEditorContent(htmlContent)
+        let savetime = moment().format('HH:mm:ss')
+     this.setState({savetime})
     }
     render() {
         let { val, currentArtData, mdContent, editorState } = this.state
@@ -165,7 +163,17 @@ export default class EditorContainer extends Component {
                     </div>
 
                 </Scrollbars>
-
+                 <div className="statusZone">
+                       <div className="savetime">
+                       {
+                           this.state.savetime?<span>自动保存于：</span> :null
+                       }
+                            <span>{this.state.savetime}</span>
+                       </div>
+                       <div  className="saveword">
+                             字数：<span>{this.state.saveword}</span>    
+                       </div>
+                 </div>
 
             </div>
         )

@@ -6,7 +6,7 @@
         "es6" : true 
     },
     "globals": {
-        "window": true,
+        "window": false,
         "document": true,
         "module": true,
         "require": true,
