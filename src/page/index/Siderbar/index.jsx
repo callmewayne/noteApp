@@ -67,16 +67,11 @@ export default class Siderbar extends Component {
     //     });
     // };
     async  addDocument(type) {
-        let newid = shortid.generate()
         let data = {
-            id: newid,
-            data: {
-                "id": newid,
-                "title": `新建文档${newid}`,
-                "description": "",
-                "content": `这是文档${newid}内容`,
-                "lastmodifytime": new Date().getTime()
-            },
+            id: '',
+            title:'无标题文档',
+            description:'',
+            content:'',
             createtime: new Date().getTime(),
             type: type == 'txt' ? 'txt' : 'md',
             size: '20B',
@@ -84,7 +79,7 @@ export default class Siderbar extends Component {
         }
         try {
             PubSub.publish('addArticle', data)
-            let result = await editorAction.newArticle(data)
+            // let result = await editorAction.newArticle(data)
         } catch (error) {
             console.log(error)
         }

@@ -1,5 +1,5 @@
 import React, {  Component} from 'react'
-import {Button} from 'antd';
+import {Button,message} from 'antd';
 import TopBar from '../../../components/TopBar/'
 import Siderbar from './../Siderbar'
 import EditorContainer from './../Editor'
@@ -8,6 +8,9 @@ import { editorAction,userAction } from "../../../actions";
 import './Main.less'
 import PubSub from 'pubsub-js'
 import { observer, inject } from 'mobx-react';
+const error = (mes) => {
+    message.error(mes);
+  };
 @inject("userStore")
 @observer
 class Main extends Component{
@@ -30,7 +33,19 @@ class Main extends Component{
 
    componentDidMount(){
     //  this.getArtList()
-       
+    PubSub.subscribe('addArticle', (msg, data) => {
+        let artlist = this.state.list
+        artlist.unshift(data)
+        this.setState({
+            list: artlist
+        })
+        editorAction.newArticle('/api/blog/new',data).then(res=>{
+            console.log(res)
+            if(res.code!=200){
+                error('新建文档失败')
+            }
+        })
+    })
    }
 
    switchCurrentUser(){
@@ -44,8 +59,8 @@ class Main extends Component{
          this.setState({
             UserInfo:userinfo
          })
+         this.getArtList()
          userAction.setUserData(userinfo)
-       this.getArtList()
        }
     })
 }
@@ -63,6 +78,7 @@ handleOk = e => {
         confirmLoading: false
     });
 };
+
 
 handleCancel = e => {
     this.setState({
@@ -100,8 +116,8 @@ async getDetail(id) {
         <div className="container">
            <TopBar />
            <Siderbar userinfo={this.state.UserInfo} showModal={this.showModal} visible={this.state.visible} handleOk={this.handleOk} handleCancel={this.handleCancel} getArtList={this.getArtList} />
-           <ArticleList handleSelect={this.pickArticle} list={this.state.list} />
-           <EditorContainer editorData={this.state.editorData} />
+           <ArticleList handleSelect={this.pickArticle} getArtList={this.getArtList} list={this.state.list} />
+           <EditorContainer editorData={this.state.editorData}  />
         </div>
        ) 
    }

@@ -81,6 +81,37 @@ class NetworkModel {
              })
          })
     }
+
+    newDELETE(uri, options) {
+        console.log(uri)
+        let that = this
+         return new Promise((resolve, reject) => {
+             request.delete({
+                 url: uri,
+                 qs: options,
+                 headers:{
+                     'token':that.userInfo
+                 }
+             }, (err, response, body) => {
+                 if (err) {
+                     reject()
+                 } else {
+                     if (response.statusCode >= 200 && response.statusCode <= 299) {
+                         resolve({
+                             response: response,
+                             body: body
+                         });
+                     } else {
+                         reject({
+                             response: response,
+                             body: body
+                         });
+                     }
+                 }
+             })
+         })
+    }
+
    async newPOST(uri, options) {
         let that = this
        // let user = await that.getUserInfo()

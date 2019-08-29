@@ -17,14 +17,9 @@ class EditorAction extends ActBase {
          return EditorAction.instance
      }
      
-    async newArticle(data){
-        // let that = this
-        // return new Promise((resolve, reject) => {
-        //     that.articledb.insert(data, (err, doc) => {
-        //             err ? reject() : resolve(doc);
-        //         })
-        // })
-        editorStore.newArticle(data)
+    async newArticle(url,data){
+        let result = this.cv(await NetworkManager.newPOST( this.basePath+ url,data)) 
+        return  result
      }
 
      async saveArticle(url,options){
@@ -39,8 +34,9 @@ class EditorAction extends ActBase {
     async getArtDetail(url,options){
       return this.cv(await NetworkManager.newGET( this.basePath+ url,options))
      }
-     async deleteArticle(id){
-      return  StorageManager.deleteArticle(id)
+     async deleteArticle(url,options){
+        let result = this.cv(await NetworkManager.newDELETE( this.basePath+ url,options)) 
+        return  result
      }
 
 }
