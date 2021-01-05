@@ -49,7 +49,7 @@
     "write-file-webpack-plugin": "^4.2.0"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "braft-editor": "^2.3.7",
     "braft-extensions": "^0.0.18",
     "electron-drag": "^1.2.2",
