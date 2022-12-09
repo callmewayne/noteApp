@@ -61,7 +61,7 @@
     "mobx-react": "^6.1.1",
     "nedb": "^1.8.0",
     "pubsub-js": "^1.7.0",
-    "qs": "^6.8.0",
+    "qs": "^6.5.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
