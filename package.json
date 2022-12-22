@@ -54,7 +54,7 @@
     "braft-extensions": "^0.0.18",
     "electron-drag": "^1.2.2",
     "for-editor": "^0.3.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^2.2.0",
     "loadsh": "^0.0.4",
     "mobx": "^5.13.0",
